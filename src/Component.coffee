@@ -11,13 +11,28 @@ class Component
 
 		# copy properties into self
 		for own k,v of properties
-			this[k] = v
+
+			# for components, set to the reference value
+			if v instanceof Component
+				this[k] = v.Ref()
+			else
+				this[k] = v
 
 	# reference this resource
 	Ref: -> Functions.Ref(@id())
 
 	# get an attribute from this resource
 	GetAtt: (attribute) -> Functions.GetAtt(@id(), attribute)
+
+	# add a dependency
+	addDependency: (component) ->
+		dependencies = this.DependsOn = this.DependsOn || []
+
+		if component instanceof Component
+			dependencies.push(component.id())
+		else
+			dependencies.push(component)
+
 
 	# this value as JSON
 	toJson: -> JSON.stringify(this, null, '\t')
