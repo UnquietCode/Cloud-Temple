@@ -47,3 +47,12 @@ whenOne = (properties) -> (id) -> whenTwo(id, properties)
 module.exports = (a, b) ->
 	if b != undefined then whenTwo(a, b)
 	else whenOne(a)
+
+
+module.exports.componetize = (obj) ->
+	# TODO check that argument is an object
+	newObj = {}
+
+	for own k,v of obj
+		# TODO check that value is an object
+		newObj[k] = whenTwo(k, v)
