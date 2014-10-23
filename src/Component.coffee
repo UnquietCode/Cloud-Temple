@@ -2,7 +2,7 @@ Functions = require('./Functions')
 
 class Component
 
-	constructor: (@Type, id, properties) ->
+	constructor: (id, properties) ->
 		# check the id
 		if not id then throw new Error("an id must be provided");
 
@@ -23,12 +23,12 @@ class Component
 	toJson: -> JSON.stringify(this, null, '\t')
 
 
-# partially applied constructor function
-whenTwo = (type, properties) -> (id) -> new Component(type, id, properties)
-
 # direct constructor function
-whenThree = (id, type, properties) -> whenTwo(type, properties)(id)
+whenTwo = (id, properties) -> new Component(id, properties)
 
-module.exports = (a, b, c) ->
-	if c != undefined then whenThree(a, b, c)
-	else whenTwo(a, b)
+# partially applied constructor function
+whenOne = (properties) -> (id) -> whenTwo(id, properties)
+
+module.exports = (a, b) ->
+	if b != undefined then whenTwo(a, b)
+	else whenOne(a)

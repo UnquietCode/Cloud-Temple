@@ -24,4 +24,4 @@ class Template
 		return JSON.stringify(template, undefined, 2)
 
 
-module.exports = Template
+module.exports = -> new Template()
