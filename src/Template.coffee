@@ -1,27 +1,48 @@
+Component = require('./Component')
+
+# multi-add helper
 add = (to, from) -> to[x.id()] = x for x in from
 
 class Template
+	_description: undefined
 	_parameters: {}
 	_resources: {}
 	_outputs: {}
 
-	addParameters: (parameters...) -> add(@_parameters, parameters)
+	constructor: (description) ->
+		@_description = description
+
+	addParameters: (parameters...) -> add(@_parameters, parameters); return this;
 	addParameter: (x) -> @addParameters(x)
 
-	addResources: (resources...) -> add(@_resources, resources)
-	addResource: (x) -> @addResources(x)
+	addResources: (resources...) -> add(@_resources, resources); return this;
+	addResource: (x) -> @addResources(x); return this;
 
-	addOutputs: (outputs...) -> add(@_outputs, outputs)
-	addOutput: (x) -> @addOutputs(x)
+	addOutput: (name, value) ->
+		if value instanceof Component.__type
+			value = value.Ref()
+
+		@_outputs[name] = { Value : value }
+		return this;
+
 
 	toJson: ->
+
+		# helper to optionally add a collection if it has values
+		addCollection = (key, collection) ->
+			if (Object.keys(collection).length > 0)
+				template[key] = collection
+
 		template =
 			AWSTemplateFormatVersion: "2010-09-09"
-			Parameters: @_parameters
-			Resources: @_resources
-			Outputs: @_outputs
+
+		if @_description then template.Description = @_description
+
+		addCollection("Parameters", @_parameters)
+		addCollection("Resources", @_resources)
+		addCollection("Outputs", @_outputs)
 
 		return JSON.stringify(template, undefined, 2)
 
 
-module.exports = -> new Template()
+module.exports = (description) -> new Template(description)

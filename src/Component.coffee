@@ -39,20 +39,24 @@ class Component
 
 
 # direct constructor function
-whenTwo = (id, properties) -> new Component(id, properties)
+idWithProperties = (id, properties) -> new Component(id, properties)
 
-# partially applied constructor function
-whenOne = (properties) -> (id) -> whenTwo(id, properties)
+# partially applied constructor function, supporting overrides
+propertiesOnly = (properties) -> (id, overrides={}) ->
+	newProps = {}
+
+	# copy original properties
+	for own k,v of properties
+		newProps[k] = v
+
+	# clobber any overrides
+	for own k,v of overrides
+		newProps[k] = v
+
+	idWithProperties(id, newProps)
 
 module.exports = (a, b) ->
-	if b != undefined then whenTwo(a, b)
-	else whenOne(a)
+	if b != undefined then idWithProperties(a, b)
+	else propertiesOnly(a)
 
-
-module.exports.componetize = (obj) ->
-	# TODO check that argument is an object
-	newObj = {}
-
-	for own k,v of obj
-		# TODO check that value is an object
-		newObj[k] = whenTwo(k, v)
+module.exports.__type = Component
