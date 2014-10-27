@@ -1,6 +1,6 @@
 parameters =
 	StackName: undefined
-	StackID: undefined
+	StackId: undefined
 	Region: undefined
 	NoValue: undefined
 	NotificationARNs: undefined
