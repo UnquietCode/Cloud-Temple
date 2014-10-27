@@ -11,3 +11,5 @@ module.exports =
 	GetAZs: (region=PseudoParams.Region) -> { "Fn::GetAZs" : region }
 
 	Join: (delimeter, values) -> { "Fn::Join" : [ delimeter, values ]}
+
+	Select: (index, values) -> { "Fn::Select" : [ index, values ]}
