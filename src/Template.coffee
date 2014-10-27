@@ -26,7 +26,9 @@ class Template
 		return this;
 
 
-	toJson: ->
+	toJson: -> JSON.stringify(this, undefined, 2)
+
+	toJSON: ->
 
 		# helper to optionally add a collection if it has values
 		addCollection = (key, collection) ->
@@ -42,7 +44,8 @@ class Template
 		addCollection("Resources", @_resources)
 		addCollection("Outputs", @_outputs)
 
-		return JSON.stringify(template, undefined, 2)
+		return template
+
 
 
 module.exports = (description) -> new Template(description)
