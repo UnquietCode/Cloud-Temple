@@ -1,7 +1,15 @@
 Component = require('./Component')
+Parameter = require('./Parameter')
+
 
 # multi-add helper
-add = (to, from) -> to[x.id()] = x for x in from
+add = (type, to, from) ->
+	for x in from
+		if not x instanceof type
+			throw new Error("invalid object")
+
+		to[x.id()] = x
+
 
 class Template
 	_description: undefined
@@ -12,14 +20,14 @@ class Template
 	constructor: (description) ->
 		@_description = description
 
-	addParameters: (parameters...) -> add(@_parameters, parameters); return this;
+	addParameters: (parameters...) -> add(Parameter.__type, @_parameters, parameters); return this;
 	addParameter: (x) -> @addParameters(x)
 
-	addResources: (resources...) -> add(@_resources, resources); return this;
+	addResources: (resources...) -> add(Component.__type, @_resources, resources); return this;
 	addResource: (x) -> @addResources(x); return this;
 
 	addOutput: (name, value) ->
-		if value instanceof Component.__type
+		if value.Ref instanceof Component.__type
 			value = value.Ref()
 
 		@_outputs[name] = { Value : value }

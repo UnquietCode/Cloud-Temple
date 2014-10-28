@@ -1,22 +1,30 @@
+Parameter = require('./Parameter')
 Functions = require('./Functions')
+Helpers = require('./Helpers')
 
 class Component
 
-	constructor: (id, properties) ->
+	constructor: (id, Type, properties) ->
+
 		# check the id
 		if not id then throw new Error("an id must be provided");
 
-		# encapsulate the id without exposing it as a property
+		# encapsulate meta-properties so that they are not exposed
 		@id = -> id
+		@Type = @type = -> Type
+
+		dependsOn = []
+		@DependsOn = -> dependsOn
 
 		# copy properties into self
 		for own k,v of properties
 
 			# for components, set to the reference value
-			if v instanceof Component
+			if v instanceof Component or v instanceof Parameter.__type
 				this[k] = v.Ref()
 			else
 				this[k] = v
+
 
 	# reference this resource
 	Ref: -> Functions.Ref(@id())
@@ -26,37 +34,55 @@ class Component
 
 	# add a dependency
 	addDependency: (component) ->
-		dependencies = this.DependsOn = this.DependsOn || []
-
 		if component instanceof Component
-			dependencies.push(component.id())
+			@DependsOn().push(component.id())
 		else
-			dependencies.push(component)
+			@DependsOn().push(component)
 
 
 	# this value as JSON
 	toJson: -> JSON.stringify(this, null, '\t')
 
+	# normal serialization
+	toJSON: ->
+		component =
+			Type: @Type()
+
+		if @DependsOn().length > 0
+			component.DependsOn = @DependsOn()
+
+		# copy properties
+		properties = {}
+
+		for own k,v of this
+			if Helpers.type(v) != "function"
+				properties[k] = v
+
+		if Object.keys(properties).length > 0
+			component.Properties = properties
+
+		return component
+
 
 # direct constructor function
-idWithProperties = (id, properties) -> new Component(id, properties)
+fullConstructor = (id, type, properties={}) -> new Component(id, type, properties)
 
 # partially applied constructor function, supporting overrides
-propertiesOnly = (properties) -> (id, overrides={}) ->
-	newProps = {}
+typeWithProperties = (type, properties) -> (id, overrides={}) ->
+	newProps = Helpers.merge(properties, overrides)
+	fullConstructor(id, type, newProps)
 
-	# copy original properties
-	for own k,v of properties
-		newProps[k] = v
+# overloaded constructor function
+module.exports = (a, b, c) ->
 
-	# clobber any overrides
-	for own k,v of overrides
-		newProps[k] = v
+	if Helpers.type(a) == "string" and Helpers.type(b) == "string"
+		fullConstructor(a, b, c)
 
-	idWithProperties(id, newProps)
+	else if c == undefined
+		typeWithProperties(a, b)
 
-module.exports = (a, b) ->
-	if b != undefined then idWithProperties(a, b)
-	else propertiesOnly(a)
+	else
+		throw new Error("invalid parameters\nuse (string, string, object) OR (string, object)")
+
 
 module.exports.__type = Component
