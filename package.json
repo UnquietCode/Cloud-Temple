@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "A small library which assists in the creation of modular (reusable, extensible) CloudFormation templates.",
   "author": "Ben Fagin",
-  "license": "MIT",
+  "license": "none",
   "main": "index.js",
   "keywords": [
     "AWS",
