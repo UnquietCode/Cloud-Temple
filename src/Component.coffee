@@ -1,4 +1,5 @@
 Functions = require('./Functions')
+Helpers = require('./Helpers')
 
 class Component
 
@@ -14,7 +15,7 @@ class Component
 	Ref: -> Functions.Ref(@id())
 
 	# this value as JSON
-	toJson: -> JSON.stringify(this, null, 2)
+	toJson: -> Helpers.toJson(this)
 
 
 module.exports = Component

@@ -1,6 +1,7 @@
 Component = require('./Component')
 Parameter = require('./Parameter')
 Resource = require('./Resource')
+Output = require('./Output')
 
 # multi-add helper
 add = (type, to, from) ->
@@ -26,23 +27,8 @@ class Template
 	addResources: (resources...) -> add(Resource.__type, @_resources, resources); return this;
 	addResource: (x) -> @addResources(x); return this;
 
-	addOutput: (name, descriptionOrValue, valueOrNothing) ->
-
-		if valueOrNothing != undefined
-			value =
-				Description: descriptionOrValue
-				Value : valueOrNothing
-		else
-			value =
-				Value : descriptionOrValue
-
-		# unwrap components
-		if value.Value instanceof Component
-			value.Value = value.Value.Ref()
-
-		@_outputs[name] = value
-		return this;
-
+	addOutputs: (outputs...) -> add(Output.__type, @_outputs, outputs); return this;
+	addOutput: (x) -> @addOutputs(x); return this;
 
 	toJson: -> JSON.stringify(this, undefined, 2)
 
@@ -63,7 +49,6 @@ class Template
 		addCollection("Outputs", @_outputs)
 
 		return template
-
 
 
 module.exports = (description) -> new Template(description)
