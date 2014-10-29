@@ -15,7 +15,7 @@ _merge = (obj1, obj2) ->
 	return newObj
 
 
-_overload = (functions) ->
+_overload = (functions, error) ->
 
 	return (args...) ->
 
@@ -41,7 +41,8 @@ _overload = (functions) ->
 				if valid then return fn(args...)
 
 		# we tried everything
-		throw new Error("invalid arguments")
+		if error then error()
+		else throw new Error("invalid arguments")
 
 
 module.exports =

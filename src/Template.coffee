@@ -2,6 +2,7 @@ Component = require('./Component')
 Parameter = require('./Parameter')
 Resource = require('./Resource')
 Output = require('./Output')
+Helpers = require('./Helpers')
 
 # multi-add helper
 add = (type, to, from) ->
@@ -30,7 +31,7 @@ class Template
 	addOutputs: (outputs...) -> add(Output.__type, @_outputs, outputs); return this;
 	addOutput: (x) -> @addOutputs(x); return this;
 
-	toJson: -> JSON.stringify(this, undefined, 2)
+	toJson: -> Helpers.toJson(this)
 
 	toJSON: ->
 

@@ -19,8 +19,9 @@ propertiesOnly = (properties) -> (id, overrides={}) ->
 	newProps = Helpers.merge(properties, overrides)
 	idWithProperties(id, newProps)
 
-module.exports = (a, b) ->
-	if b != undefined then idWithProperties(a, b)
-	else propertiesOnly(a)
+module.exports = Helpers.overload([
+	["string", "object", idWithProperties]
+	["object", propertiesOnly]
+])
 
 module.exports.__type = Parameter

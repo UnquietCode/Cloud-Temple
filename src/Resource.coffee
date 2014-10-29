@@ -65,16 +65,10 @@ typeWithProperties = (type, properties) -> (id, overrides={}) ->
 	fullConstructor(id, type, newProps)
 
 # overloaded constructor function
-module.exports = (a, b, c) ->
-
-	if Helpers.type(a) == "string" and Helpers.type(b) == "string"
-		fullConstructor(a, b, c)
-
-	else if c == undefined
-		typeWithProperties(a, b)
-
-	else
-		throw new Error("invalid parameters\nuse (string, string, object) OR (string, object)")
+module.exports = Helpers.overload([
+	["string", "object", typeWithProperties]
+	["string", "string", "object", fullConstructor]
+], -> throw new Error("invalid parameters\nuse (string, string, object) OR (string, object)"))
 
 
 module.exports.__type = Resource
