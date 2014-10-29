@@ -1,5 +1,4 @@
 Component = require('./Component')
-Parameter = require('./Parameter')
 Functions = require('./Functions')
 Helpers = require('./Helpers')
 
@@ -29,6 +28,8 @@ class Resource extends Component
 
 	# add a dependency
 	addDependency: (resource) ->
+
+		# for resources, use a reference instead
 		if resource instanceof Resource
 			@DependsOn().push(resource.id())
 		else
