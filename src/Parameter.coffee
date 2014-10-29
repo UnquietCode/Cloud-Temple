@@ -1,25 +1,14 @@
-Functions = require('./Functions')
+Component = require('./Component')
 Helpers = require('./Helpers')
 
-class Parameter
+class Parameter extends Component
 
 	constructor: (id, properties) ->
-
-		# check the id
-		if not id then throw new Error("an id must be provided");
-
-		# encapsulate the id without exposing it as a property
-		@id = -> id
+		super(id)
 
 		# copy properties into self
 		for own k,v of properties
 			this[k] = v
-
-	# reference this parameter
-	Ref: -> Functions.Ref(@id())
-
-	# this value as JSON
-	toJson: -> JSON.stringify(this, null, '\t')
 
 
 # direct constructor function

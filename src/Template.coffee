@@ -1,6 +1,6 @@
 Component = require('./Component')
 Parameter = require('./Parameter')
-
+Resource = require('./Resource')
 
 # multi-add helper
 add = (type, to, from) ->
@@ -23,14 +23,24 @@ class Template
 	addParameters: (parameters...) -> add(Parameter.__type, @_parameters, parameters); return this;
 	addParameter: (x) -> @addParameters(x)
 
-	addResources: (resources...) -> add(Component.__type, @_resources, resources); return this;
+	addResources: (resources...) -> add(Resource.__type, @_resources, resources); return this;
 	addResource: (x) -> @addResources(x); return this;
 
-	addOutput: (name, value) ->
-		if value.Ref instanceof Component.__type
-			value = value.Ref()
+	addOutput: (name, descriptionOrValue, valueOrNothing) ->
 
-		@_outputs[name] = { Value : value }
+		if valueOrNothing != undefined
+			value =
+				Description: descriptionOrValue
+				Value : valueOrNothing
+		else
+			value =
+				Value : descriptionOrValue
+
+		# unwrap components
+		if value.Value instanceof Component
+			value.Value = value.Value.Ref()
+
+		@_outputs[name] = value
 		return this;
 
 
