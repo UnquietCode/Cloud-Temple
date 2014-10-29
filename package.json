@@ -1,0 +1,17 @@
+{
+  "name": "cloud-temple",
+  "version": "0.0.1",
+  "description": "A small library which assists in the creation of modular (reusable, extensible) CloudFormation templates.",
+  "author": "Ben Fagin",
+  "license": "MIT",
+  "main": "index.js",
+  "keywords": [
+    "AWS",
+    "CloudFormation",
+    "CoffeeScript",
+    "UnquietCode"
+  ],
+  "dependencies": {
+    "coffee-script": "^1.8.0"
+  }
+}
