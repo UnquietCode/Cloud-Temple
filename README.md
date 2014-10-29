@@ -1,23 +1,21 @@
-# Cloud Temple (v1.0)
-#### `npm install cloud-temple`
+# Cloud Temple (v0.0.1)
+#### ~~`npm install cloud-temple`~~ will be released on Nov. 1st, 2014
 
-A collection of rituals and incantations which assist in the creation of modular, reusable [CloudFormation](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/Welcome.html) templates in JavaScript.
+A collection of rituals and incantations which assist in the creation of modular (reusable, extensible) [CloudFormation](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/Welcome.html) templates in JavaScript.
 
-The only assumption is that you are using **node.js**, however this is not a hard requirement, and something like [browserify](https://github.com/substack/node-browserify) should do the trick for browser environments.
+The only assumption is that you are using **Node.js**, however this is not a hard requirement, and something like [browserify](https://github.com/substack/node-browserify) should do the trick for browser environments.
 
+The examples below are written in [CoffeeScript](http://coffeescript.org).
 
-
-#(change the examples to be legit AWS resources with correct properties)
 
 ### Stop repeating yourself!
-There's no reason to repeat the same resource objects in all of your templates. When it comes time for you change something, you end up editing all of your templates instead of a few small declarations. The main limitation comes from the lack of composibility in JSON documents, which is simply not a problem using a richer language like CoffeeScript.
+There's no reason to repeat the same parameters and resources in all of your templates. When it comes time for you change something, you end up editing all of your templates instead of a few small declarations. This limitation comes from the lack of composibility of JSON documents, which is simply not a problem using a richer language like CoffeeScript.
 
 ```coffee
 # EC2Volume.coffee
-Component = require('CloudTemple').Component
+Resource = require('cloud-temple').Resource
 
-module.exports = Component
-  Type: "AWS::EC2::Volume"
+module.exports = Resource("AWS::EC2::Volume"
   Size : "100"
   AvailabilityZone : "us-east-1a"
 ```
@@ -26,7 +24,7 @@ module.exports = Component
 Write a component, use it once, then use it again and again. You shouldn't have to repeat the definition of a component simply to change its ID or a couple of properties.
 
 ```coffee
-Volume = Component(
+Volume = Resource(
   Type: "AWS::EC2::Volume"
   Size : "100"
   AvailabilityZone : "us-east-1a"
@@ -44,22 +42,29 @@ ScratchDisk.Size = "50"
 
 
 ## Templates ([docs](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-anatomy.html))
-A template is a collection of components, divided into the three categories of "Parameters", "Resources", and "Outputs". In practice these are all the same basic shape in the JSON document.
+A template is a collection of components, divided into the three main categories of "Parameters", "Resources", and "Outputs".
 
 ### To create a new Template:
 ```coffee
-Template = require('CloudTemple').Template
+Template = require('cloud-temple').Template
 
 templateA = Template()
 templateB = Template("a description can also be provided")
 ```
 
-### To add a Component to a Template:
+### To add a Parameter to a Template:
 ```coffee
-template = Template()
-  .addParameter(...)
-  .addResource(...)
-  .addOutput(...)
+-------------------
+```
+
+### To add a Resource to a Template:
+```coffee
+-------------------
+```
+
+### To add an Output to a Template:
+```coffee
+-------------------
 ```
 
 ### To render a Template as JSON:
@@ -68,16 +73,16 @@ console.log template.toJson()
 ```
 
 
-## Components
-Every object in a template can be thought of as a named component, consisting of a unique ID and a map of properties. Resources, Parameters, and Outputs are all just components in Cloud Temple.
+## Parameters ([docs](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/parameters-section-structure.html))
+`Parameter` components are used for accepting inputs to your template.
 
-### To create a new Component with an ID:
-The `Component` function accepts two parameters, where the first is the ID and the second is the object containing the component's properties.
+### To create a new Parameter with ID:
+The `Parameter` function accepts two parameters, where the first is the ID and the second is the object containing the various properties.
 
 ```coffee
-Component = require('CloudTemple').Component
+Parameter = require('cloud-temple').Parameter
 
-DBPortParameter = Component("DBPort", {
+DBPortParameter = Parameter("DBPort"
   Type: "Number"
   Default: "3306"
   Description: "TCP/IP port for the database"
@@ -86,18 +91,48 @@ DBPortParameter = Component("DBPort", {
 })
 ```
 
-### To create a new reusable Component:
-Each component in a template has a [unique] ID. However, to facillitate reuse it is often desirable to have the consumer of the component assign their own ID. The `Component` constructor function is overloaded to defer creation and allow the ID to be provided later.
+### To create a new reusable Parameter:
+You can create multiple parameters from a single definition by using the overloaded `Parameter` function, which defers creation and allows the ID to be provided later.
 
 ```coffee
-Component = require('CloudTemple').Component
+Parameter = require('cloud-temple').Parameter
 
-# create a new Component constructor
-Volume = Component(
-  Type: "AWS:EC2:Volume"
-  InstanceId : "xxx"
-  DeviceId : "two"
-  VolumeId : "three"
+PortParameter = Parameter(
+  Type: "Number"
+  Default: "3306"
+  Description: "TCP/IP port for the database"
+  MinValue: "1150"
+  MaxValue: "65535"
+})
+
+DBPort = PortParameter("DBPort")
+```
+
+### To render a Parameter as JSON:
+```coffee
+console.log parameter.toJson()
+```
+
+
+## Resources ([docs](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html))
+A `Resource` is a thing which is created as part of your stack.
+
+### To create a new Resource with an ID:
+The `Resource` function accepts two parameters, where the first is the ID and the second is the object containing the component's properties.
+
+```coffee
+----------------------------------
+```
+
+### To create a new reusable Resource:
+Like parameters, each resource in a template has a [unique] ID. However, to facillitate reuse it is often desirable to have the consumer of the resource assign their own ID. The `Resource` constructor function is overloaded to defer creation and allow the ID to be provided later.
+
+```coffee
+Resource = require('cloud-temple').Resource
+
+# create a new Resource constructor
+Volume = Resource(
+    o-o-o-o-o-o-o-o-o-o-o-o
 )
 
 # create named instances using the constructor
@@ -105,32 +140,9 @@ DatabaseVolume = Volume("DataVolume")
 ScratchDisk = Volume("TempVolume")
 ```
 
-### To create a series of Components from a regular object:
-A little sugar to make life easier. The `Componentize` function will turn a normal map of identifiers to property objects into a map of identifiers to `Component` objects, where the component ID's are taken from the keys.
-
+### To render a Resource as JSON:
 ```coffee
-Componentize = require('CloudTemple').Componentize
-
-components = Componentize
-  
-  InstanceA:
-    Type: "AWS:EC2:Instance"
-    Description: ""
-    ImageId: "accsr42"
-
-  InstanceB:
-    Type: "AWS:EC2:Instance"
-    Description: ""
-    ImageId: "accsr42"
-
-
-console.log(components.InstanceA.id())    # "InstanceA"
-console.log(components.InstanceB.ImageId) # "accsrd2"
-```
-
-### To render a Component as JSON:
-```coffee
-console.log component.toJson()
+console.log resource.toJson()
 ```
 
 
@@ -139,11 +151,9 @@ console.log component.toJson()
 Functions which are available in CloudFormation templates are also available in your CoffeeScript templates under the `Functions` helper object.
 
 ```coffee
-Functions = require('CloudTemple').Functions
+Functions = require('cloud-temple').Functions
 
-Instance = Component
-  Type: "AWS::EC2::Instance"
-  AvailabilityZones: Functions.GetAZs()
+    o-o-o-o-o-o-o-o-o-o-o-o
 ```
 
 ### Complete List of Functions
@@ -158,36 +168,27 @@ Instance = Component
 
 ## Referencing Components ([docs](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-ref.html))
 
-Two of the intrinsic functions, `Ref` and `GetAtt`, take the ID of an existing template component as a parameter. As a convenience, these can be called directly on a component object, which will make use of the component's ID.
+Two of the intrinsic functions, `Ref` and `GetAtt`, take the ID of an existing template component as a parameter. As a convenience, these can be called directly on `Parameter` and `Resource` objects, which will make use of the component's ID.
 
 ```coffee
-Volume = Component("DbVolume", {
-  Type: "AWS:EC2:Volume"
-  DeviceId : "blah"
-  VolumeId : "1234"
-})
+Volume = 
+    o-o-o-o-o-o-o-o-o-o-o-o
 
 Volume.Ref()           # { "Ref" : "DbVolume" }
-Volume.GetAtt("port")  # { "Fn::GetAtt" : ["DbVolume", "port"] }
+Volume.GetAtt("xx")  # { "Fn::GetAtt" : ["DbVolume", "xx"] }
 ```
 
-Even more convenient, you can use a `Component` directly in another component's definition, and this will be interpreted as an implicit call to `.Ref()`.
+
+
+
+Even more convenient, you can use a `Parameter` or `Resource` directly in another Resource's definition, and this will be interpreted as an implicit call to `.Ref()`.
+
+XXX (also outputs)
 
 ```coffee
-Volume = Component("DbVolume", {
-  Type: "AWS:EC2:Volume"
-  DeviceId : "blah"
-  VolumeId : "1234"
-})
-
-Instance = Component("DbInstance", {
-  Type: "AWS:EC2:Instance"
-  ImageId: "aabv"
-  VolumeId: Volume
-})
-
-Instance.addDependency(Volume)
-template.addOutput("DatabaseServer", Instance)
+---------------------------------
+Volume / VolumeAttachment example
+---------------------------------
 ```
 
 
@@ -195,7 +196,7 @@ template.addOutput("DatabaseServer", Instance)
 Intrinsic CloudFormation parameters which are exposed to all templates are available under the `PseudoParameters` helper. Under the hood, pseudo parameters are just `Component` objects and can be used anywhere components are allowed.
 
 ```coffee
-Pseudo = require('CloudTemple').PseudoParameters
+Pseudo = require('cloud-temple').PseudoParameters
 
 # "Outputs": {
 #   "MyStackRegion": { "Value": { "Ref": "AWS::Region" } }
@@ -213,7 +214,7 @@ template.addOutput("MyStackRegion", Pseudo.Region)
 
 
 ## Thanks!
-You know, for being you.
+You know, for being *you*.
 
 
 ## To Do
@@ -222,4 +223,4 @@ A few things which need to be completed for full support.
 * [Conditions](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/conditions-section-structure.html) / [Condition Functions](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-conditions.html)
 * [Maps](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/mappings-section-structure.html)
 * [Custom Resources](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/crpg-ref.html)
-
+* `Metadata`, `DeletionPolicy`, and `UpdatePolicy` resource attributes
