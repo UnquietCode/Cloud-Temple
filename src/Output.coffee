@@ -23,11 +23,9 @@ idAndDescription = (id, description, value) ->
 
 	return new Output(id, description, value)
 
-valueOnly = (value) -> (id) -> idAndDescription(id, undefined, value)
 idOnly = (id, value) -> idAndDescription(id, undefined, value)
 
 module.exports = Helpers.overload([
-	[undefined, valueOnly]
 	["string", undefined, idOnly]
 	["string", "string", undefined, idAndDescription]
 ])

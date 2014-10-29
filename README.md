@@ -193,8 +193,32 @@ console.log resource.toJson()
 ```
 
 
-## Outputs
-### o-o-o-o-o TODO o-o-o-o-o
+## Outputs ([docs](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/outputs-section-structure.html))
+You can define `Output` components for your template, which can reference a `Parameter`, `Resource`, or any hard-coded or derived value. In this way you can expose values which may be unique to each template, such as input parameters or values generated during the creation of your stack.
+
+### To create a new Output:
+```coffee
+Output = require('cloud-temple').Output
+
+DnsName = Output("DnsName", "a.b.com")
+```
+
+### To create a new Output with a description:
+```coffee
+Output = require('cloud-temple').Output
+
+DnsName = Output("DnsName", "main DNS entry for the stack", "a.b.com")
+```
+
+### To reference a component in an Output:
+The value of an `Output` may be a literal value, function value, pseudo parameter, or a reference to an existing `Parameter` or `Resource`. As in other places, you can simply pass in the component and this will be be interpreted as an implicit call to `.Ref()`.
+
+```coffee
+Output = require('cloud-temple').Output
+
+VolumeMount = require('./EC2VolumeMountPoint').GetAtt('Device')
+DeviceAddress = Output("DeviceAddress", VolumeMount)  # /dev/sdg
+```
 
 
 ## Intrinsic Functions ([docs](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference.html))
@@ -265,7 +289,9 @@ template.addOutput("MyStackRegion", Pseudo.Region)
 
 
 ## License
-Cloud Temple is free and open software provided without a license.
+Cloud Temple is free and open software. Anyone is free to copy, modify, publish, use, compile, sell, or distribute this software, either in source code form or as a compiled binary, for any purpose, commercial or non-commercial, and by any means.
+
+Information wants to be free. This software is free. Make it, break it. Use it.
 
 
 ## Thanks!
