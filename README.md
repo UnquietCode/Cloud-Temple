@@ -322,6 +322,58 @@ template.addOutput("MyStackRegion", Pseudo.Region)
 * StackName &rarr; `{ "Ref" : "AWS::StackName" }`
 
 
+## Helpers
+There are a few functions which are included as helpers, being little more than some syntactical sugar to make creating components en masse a bit easier.
+
+### To create a series of Parameters from a regular object:
+You can expedite the creation of parameters by using the `Parameterize` helper. This function takes as input a normal map of identifiers to property objects, and returns a map of identifiers to `Parameter` objects, where the parameter ID's are taken from the keys.
+
+```coffee
+# Parameters.coffee
+Parameterize = require('cloud-temple').Parameterize
+
+module.exports = Parameterize
+
+  DataInstanceType:
+    Type: "String"
+    Description: "instance type for database server"
+    Default: "m3.large"
+
+  AppInstanceType:
+    Type: "String"
+    Description: "instance type for application server"
+    Default: "m3.medium"
+    
+  ....
+  
+```
+
+### To create a series of components from a map:
+You can create a map of components where the ID's for Parameters and Resources are taken from the object keys, which avoids having to specify the ID twice. This is also a nice way to make use of reusable components. Where the ID has already been set (which is always true for Outputs), it is left unchanged.
+
+```coffee
+# ServerComponents.coffee
+Componentize = require('cloud-temple').Componentize
+
+module.exports = Componentize
+  
+  # using Parameters
+  VolumeName: Parameter({...})
+  
+  # using Resources
+  Volume: Resource("AWS::EC2::Volume", {...})
+  
+  # if the component already has an ID it is left unchanged
+  Instance: Resource("AWS::EC2::Instance", "WebServerInstance", {...})
+  
+  # setting the ID on a reusable Resource
+  DNS: require('./DnsRecord')
+  
+  # you could also include Outputs here
+  StackRegion: Output("StackRegion", Pseudo.Region)
+```
+
+
 ## License
 Cloud Temple is free and open software. Anyone is free to copy, modify, publish, use, compile, sell, or distribute this software, either in source code form or as a compiled binary, for any purpose, commercial or non-commercial, and by any means.
 
