@@ -94,6 +94,8 @@ typeWithProperties = (type, properties) -> (id, overrides={}) ->
 
 # overloaded constructor function
 module.exports = Helpers.overload([
+	["string", (type) -> typeWithProperties(type, {})]
+	["string", "string", (id, type) -> fullConstructor(id, type, {})]
 	["string", "object", typeWithProperties]
 	["string", "string", "object", fullConstructor]
 ], -> throw new Error("invalid parameters\nuse (string, string, object) OR (string, object)"))
