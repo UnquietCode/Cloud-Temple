@@ -16,11 +16,13 @@ class Resource extends Component
 	constructor: (id, Type, properties) ->
 		super(id)
 
+		_dependencies = []
+		@_dependencies = -> _dependencies
+
+		@_metadata = -> undefined
+
 		# encapsulate meta-properties so that they are not exposed
 		@Type = @type = -> Type
-
-		dependsOn = []
-		@DependsOn = -> dependsOn
 
 		# copy properties into self
 		for own k,v of properties
@@ -31,7 +33,6 @@ class Resource extends Component
 			else
 				this[k] = v
 
-
 	copy: (newProps={}) ->
 		newResource = new Resource(@id(), @Type, @)
 		Helpers.overlay(newResource, newProps)
@@ -41,17 +42,21 @@ class Resource extends Component
 	GetAtt: (attribute) -> Functions.GetAtt(@id(), attribute)
 
 	# add a dependency
-	dependsOn: (resources...) ->
+	DependsOn: (resources...) ->
 		for resource in resources
 
 			# for resources, use a reference instead
 			if resource instanceof Resource
-				@DependsOn().push(resource.id())
+				@_dependencies().push(resource.id())
 			else
-				@DependsOn().push(resource)
+				@_dependencies().push(resource)
 
 		# support chaining
 		return this;
+
+	Metadata: (data) ->
+		@_metadata = -> data
+		return this
 
 
 	# override normal serialization
@@ -59,8 +64,12 @@ class Resource extends Component
 		resource =
 			Type: @Type()
 
-		if @DependsOn().length > 0
-			resource.DependsOn = @DependsOn()
+		if @_dependencies().length > 0
+			resource.DependsOn = @_dependencies()
+
+		# copy metadata
+		if @_metadata() and Object.keys(@_metadata()).length > 0
+			resource.Metadata = @_metadata()
 
 		# copy properties
 		properties = {}
