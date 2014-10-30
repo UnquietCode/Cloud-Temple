@@ -3,6 +3,7 @@ require('coffee-script/register');
 
 module.exports = {
 	Template: require('./src/Template'),
+	Templatize: require('./src/Templatize'),
 	Componentize: require('./src/Componentize'),
 	Parameter: require('./src/Parameter'),
 	Parameterize: require('./src/Parameterize'),

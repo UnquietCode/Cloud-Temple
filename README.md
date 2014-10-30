@@ -366,8 +366,8 @@ module.exports = Parameterize
   
 ```
 
-### To create a series of components from a map:
-You can create a map of components where the ID's for Parameters and Resources are taken from the object keys, which avoids having to specify the ID twice. This is also a nice way to make use of reusable components. Where the ID has already been set (which is always true for Outputs), it is left unchanged.
+### To create a series of components from a regular object:
+Using the `Componentize` helper, you can create a map of components where the ID's for Parameters and Resources are taken from the object keys, which avoids having to specify the ID twice. This is also a nice way to make use of reusable components. Where the ID has already been set (which is always true for Outputs), it is left unchanged.
 
 ```coffee
 # ServerComponents.coffee
@@ -391,6 +391,22 @@ module.exports = Componentize
   StackRegion: Output("StackRegion", Pseudo.Region)
 ```
 
+### To create a template from a regular object:
+You can piece together an object containing any number Parameters, Resources, Outputs, or their deferred constructors, and automatically turn it into a full template by using the `Templatize` function. A description for the template can optionally be provided.
+
+```coffee
+# MyTemplate.coffee
+
+module.exports = Templatize("optional description"
+
+  ParamA: Parameter({})
+
+  ResourceB: Resource("resource", "RType", {})
+
+  OutC: Output("sup", "baby")
+)
+```
+
 
 <a name="license"></a>
 ## License
@@ -409,4 +425,7 @@ A few things which need to be completed for full support.
 * [Conditions](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/conditions-section-structure.html) / [Condition Functions](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-conditions.html)
 * [Maps](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/mappings-section-structure.html)
 * [Custom Resources](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/crpg-ref.html)
-* `Metadata`, `DeletionPolicy`, and `UpdatePolicy` resource attributes
+* [resource attributes](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-product-attribute-reference.html)
+  * `Metadata`
+  * `DeletionPolicy`
+  * `UpdatePolicy` 
