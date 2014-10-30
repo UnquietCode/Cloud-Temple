@@ -46,6 +46,18 @@ ScratchDisk.Encrypted = false
 ```
 
 
+## Table of Contents
+0. [Templates](#templates)
+0. [Parameters](#parameters)
+0. [Resources](#resources)
+0. [Outputs](#outputs)
+0. [Intrinsic Functions](#functions)
+0. [Referencing Components](#referencing)
+0. [Pseudo Parameters](#pseudos)
+0. [Helper Functions](#helpers)
+
+
+<a name="templates"></a>
 ## Templates ([docs](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-anatomy.html))
 A `Template` is a collection of components, divided into the three main categories of "Parameters", "Resources", and "Outputs".
 
@@ -99,6 +111,7 @@ console.log template.toJson()
 ```
 
 
+<a name="parameters"></a>
 ## Parameters ([docs](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/parameters-section-structure.html))
 `Parameter` components are used for accepting inputs to your template.
 
@@ -148,6 +161,7 @@ console.log parameter.toJson()
 ```
 
 
+<a name="resources"></a>
 ## Resources ([docs](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html))
 A `Resource` is an AWS component which is created as part of your stack. Like parameters, they can be referenced in other resources and outputs by ID (see the section on [referencing](#referencing) below).
 
@@ -215,6 +229,7 @@ console.log resource.toJson()
 ```
 
 
+<a name="outputs"></a>
 ## Outputs ([docs](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/outputs-section-structure.html))
 You can define outputs for your template, which can reference a `Parameter`, `Resource`, or any hard-coded or derived value. In this way you can expose values which may be unique to each template, such as input parameters or values generated during the creation of your stack.
 
@@ -241,6 +256,7 @@ DeviceAddress = Output("DeviceAddress", VolumeMount)  # /dev/sdg
 ```
 
 
+<a name="functions"></a>
 ## Intrinsic Functions ([docs](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference.html))
 
 Functions which are available in CloudFormation templates are also available in your CoffeeScript templates under the `Functions` helper object.
@@ -301,6 +317,7 @@ DataVolumeMount = Resource("MountPoint", "AWS::EC2::VolumeAttachment"
 ```
 
 
+<a name="pseudos"></a>
 ## Pseudo Parameters ([docs](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/pseudo-parameter-reference.html))
 Intrinsic CloudFormation parameters which are exposed to all templates are available under the `PseudoParameters` helper (also aliased to `Pseudo`). Under the hood, pseudo parameters are just `Ref` objects and can be used anywhere references are allowed.
 
@@ -322,6 +339,7 @@ template.addOutput("MyStackRegion", Pseudo.Region)
 * StackName &rarr; `{ "Ref" : "AWS::StackName" }`
 
 
+<a name="helpers"></a>
 ## Helpers
 There are a few functions which are included as helpers, being little more than some syntactical sugar to make creating components en masse a bit easier.
 
@@ -374,6 +392,7 @@ module.exports = Componentize
 ```
 
 
+<a name="license"></a>
 ## License
 Cloud Temple is free and open software. Anyone is free to copy, modify, publish, use, compile, sell, or distribute this software, either in source code form or as a compiled binary, for any purpose, commercial or non-commercial, and by any means.
 
