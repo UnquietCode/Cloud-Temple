@@ -51,6 +51,7 @@ ScratchDisk.Encrypted = false
 0. [Parameters](#parameters)
 0. [Resources](#resources)
 0. [Outputs](#outputs)
+0. [Mappings](#mappings)
 0. [Intrinsic Functions](#functions)
 0. [Referencing Components](#referencing)
 0. [Pseudo Parameters](#pseudos)
@@ -183,6 +184,22 @@ ClusterName = ClusterNameParameter.copy(
 console.log parameter.toJson()
 ```
 
+
+<a name="mappings"></a>
+## Mappings ([docs](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/mappings-section-structure.html))
+
+### To add a mapping to a Template:
+```coffee
+# add a single map
+template.addMapping("RegionMap",
+  "us-east-1" : { "AMI" : "ami-bad" }
+
+# add multiple maps
+template.addMappings(
+  RegionMap:
+    "us-east-1" : { "AMI" : "ami-bad" }
+)
+```
 
 <a name="resources"></a>
 ## Resources ([docs](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html))

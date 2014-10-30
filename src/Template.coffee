@@ -27,6 +27,7 @@ class Template
 	_parameters: {}
 	_resources: {}
 	_outputs: {}
+	_mappings: {}
 
 	constructor: (description) ->
 		@_description = description
@@ -35,10 +36,25 @@ class Template
 	addParameter: (x) -> @addParameters(x)
 
 	addResources: (resources...) -> add(Resource.__type, @_resources, resources); return this;
-	addResource: (x) -> @addResources(x); return this;
+	addResource: (x) -> @addResources(x);
 
 	addOutputs: (outputs...) -> add(Output.__type, @_outputs, outputs); return this;
-	addOutput: (x) -> @addOutputs(x); return this;
+	addOutput: (x) -> @addOutputs(x);
+
+	addMappings: (map) ->
+		for own k,v of map
+			@_mappings[k] = v
+
+		return this
+
+	addMapping: (name, map) ->
+		if not (name instanceof String or Helpers.type(name) is 'string')
+			throw new Error("invalid arguments (did you mean to use the plural form?)")
+
+		wrapper = {}
+		wrapper[name] = map
+		console.log name
+		@addMappings(wrapper)
 
 	add: (x) ->
 		if x instanceof Parameter.__type then @addParameter(x)
@@ -63,6 +79,7 @@ class Template
 		addCollection("Parameters", @_parameters)
 		addCollection("Resources", @_resources)
 		addCollection("Outputs", @_outputs)
+		addCollection("Mappings", @_mappings)
 
 		return template
 
