@@ -399,12 +399,30 @@ You can piece together an object containing any number Parameters, Resources, Ou
 
 module.exports = Templatize("optional description"
 
-  ParamA: Parameter({})
+  ParamA: Parameter({...})
 
-  ResourceB: Resource("resource", "RType", {})
+  ResourceB: Resource("resource", "Type", {...})
 
-  OutC: Output("sup", "baby")
+  OutC: Output("OutputC", "...")
+
 )
+```
+
+### To create a template from an array of components:
+Given an array of already constructed components (Parameters, Resources, and Outputs), you can automatically turn it into a template by using the overloaded `Templatize` function. A description for the template can optionally be provided.
+
+```coffee
+# MyTemplate.coffee
+
+module.exports = Templatize("optional description", [
+  
+  Parameter("ParamA", {...})
+  
+  Resource("ResourceB", "Type", {...})
+  
+  Output("OutputC", "...")
+
+])
 ```
 
 

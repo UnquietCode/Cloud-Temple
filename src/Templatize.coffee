@@ -39,7 +39,30 @@ descriptionAndObject = (description, object) ->
 
 objectOnly = (obj) -> descriptionAndObject(undefined, obj)
 
+
+descriptionAndArray = (description, array) ->
+	template = Template(description)
+
+	for value in array
+		if value instanceof Parameter.__type
+			template.addParameter(value)
+
+		else if value instanceof Resource.__type
+			template.addResource(value)
+
+		else if value instanceof Output.__type
+			template.addOutput(value)
+
+		else throw new Error("only fully constructed Parameters, Resources, and Outputs are allowed")
+
+	return array
+
+
+arrayOnly = (array) -> descriptionAndArray(undefined, array)
+
 module.exports = Helpers.overload([
 	["object", objectOnly]
 	["string", "object", descriptionAndObject]
+	["array", arrayOnly]
+	["string", "array", descriptionAndArray]
 ])
