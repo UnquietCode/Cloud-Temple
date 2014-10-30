@@ -26,14 +26,20 @@ class Resource extends Component
 	# get an attribute from this resource
 	GetAtt: (attribute) -> Functions.GetAtt(@id(), attribute)
 
-	# add a dependency
-	addDependency: (resource) ->
 
-		# for resources, use a reference instead
-		if resource instanceof Resource
-			@DependsOn().push(resource.id())
-		else
-			@DependsOn().push(resource)
+	# add a dependency
+	dependsOn: (resources...) ->
+		for resource in resources
+
+			# for resources, use a reference instead
+			if resource instanceof Resource
+				@DependsOn().push(resource.id())
+			else
+				@DependsOn().push(resource)
+
+		# support chaining
+		return this;
+
 
 	# override normal serialization
 	toJSON: ->

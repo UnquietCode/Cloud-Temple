@@ -59,20 +59,38 @@ template2 = Template("a description can also be provided")
 
 ### To add a Parameter to a Template:
 ```coffee
-template.addParameter(x)
+A = Parameter(...)
+B = Parameter(...)
+
+# singular
+template.addParameter(A).addParameter(B)
+
+# plural
+template.addParameters(A, B)
 ```
 
 ### To add a Resource to a Template:
 ```coffee
-template.addResource(x)
+A = Resource(...)
+B = Resource(...)
+
+# singular
+template.addResource(A).addResource(B)
+
+# plural
+template.addResources(A, B)
 ```
 
 ### To add an Output to a Template:
 ```coffee
-template.addOutput(id, value)
+A = Output(...)
+B = Output(...)
 
-# a description can also be provided
-template.addOutput(id, description, value)
+# singular
+template.addOutput(A).addOutput(B)
+
+# plural
+template.addOutputs(A, B)
 ```
 
 ### To render a Template as JSON:
@@ -184,7 +202,11 @@ resource.Ref()
 Resources can have dependencies to other resources. This is sometimes necessary to ensure that resources are created in a certain order.
 
 ```coffee
-o-o-o-o-o TODO o-o-o-o-o
+Server1 = Resource(...)
+Server2 = Resource(...)
+S3Bucket = Resource(...)
+
+Server2.dependsOn(Server1, S3Bucket)
 ```
 
 ### To render a Resource as JSON:
@@ -194,19 +216,17 @@ console.log resource.toJson()
 
 
 ## Outputs ([docs](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/outputs-section-structure.html))
-You can define `Output` components for your template, which can reference a `Parameter`, `Resource`, or any hard-coded or derived value. In this way you can expose values which may be unique to each template, such as input parameters or values generated during the creation of your stack.
+You can define outputs for your template, which can reference a `Parameter`, `Resource`, or any hard-coded or derived value. In this way you can expose values which may be unique to each template, such as input parameters or values generated during the creation of your stack.
 
 ### To create a new Output:
 ```coffee
 Output = require('cloud-temple').Output
-
 DnsName = Output("DnsName", "a.b.com")
 ```
 
 ### To create a new Output with a description:
 ```coffee
 Output = require('cloud-temple').Output
-
 DnsName = Output("DnsName", "main DNS entry for the stack", "a.b.com")
 ```
 
@@ -226,9 +246,13 @@ DeviceAddress = Output("DeviceAddress", VolumeMount)  # /dev/sdg
 Functions which are available in CloudFormation templates are also available in your CoffeeScript templates under the `Functions` helper object.
 
 ```coffee
+Resource = require('cloud-temple').Resource
 Functions = require('cloud-temple').Functions
 
-o-o-o-o-o TODO o-o-o-o-o
+DataVolume = Resource("DataVolume", "AWS::EC2::Volume"
+  Size : "100"
+  AvailabilityZone : Functions.Select(0, Functions.GetAZs())
+)
 ```
 
 ### Complete List of Functions
@@ -247,7 +271,17 @@ o-o-o-o-o TODO o-o-o-o-o
 Two of the intrinsic functions, `Ref` and `GetAtt`, take the ID of an existing `Parameter` or `Resource` as input. As a convenience, these can be called directly on `Parameter` and `Resource` objects, which will make use of the component's ID.
 
 ```coffee
-o-o-o-o-o TODO GetAtt example o-o-o-o-o
+Functions = require('cloud-temple').Functions
+Resource = require('cloud-temple').Resource
+
+EC2Instance = require('./Server')
+
+DnsRecord = Resource("DnsRecord", "AWS::Route53::RecordSet"
+  HostedZoneId: "1ZHH423DMZ"
+  Name : "a.b.com"
+  Type : "A"
+  ResourceRecords : [ EC2Instance.GetAtt("PublicIp") ]
+)
 ```
 
 Even more convenient, you can use a `Parameter` or `Resource` directly in another Resource's definition, or as a template output, and this will be interpreted as an implicit call to `.Ref()`.
