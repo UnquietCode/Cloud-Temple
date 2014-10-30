@@ -1,7 +1,7 @@
 # Cloud Temple (v0.0.1)
 #### ~~`npm install cloud-temple`~~ will be released on Nov. 1st, 2014
 
-A collection of rituals and incantations which assist in the creation of modular (reusable, extensible) [CloudFormation](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/Welcome.html) templates in JavaScript.
+A collection of rituals and incantations which assist in the creation of modular (reusable, extensible) AWS [CloudFormation](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/Welcome.html) templates in JavaScript.
 
 The only assumption is that you are using **Node.js**, however this is not a hard requirement, and something like [browserify](https://github.com/substack/node-browserify) should do the trick for browser environments.
 
@@ -162,6 +162,22 @@ Parameters can be referenced in your resources and outputs by using the `Ref` fu
 parameter.Ref()
 ```
 
+### To copy a Parameter and change some of its properties:
+Sometimes it is desirable to create a copy of an existing `Parameter` in order to change some values, such as the default value, which may change between templates.
+
+```coffee
+ClusterNameParameter = Parameter('ClusterName'
+  Type: "String"
+  Description: "A unique name for the cluster."
+  AllowedPattern: "[a-z]+[a-z0-9]*"
+  DefaultValue: "Balthazar"
+)
+
+ClusterName = ClusterNameParameter.copy(
+  DefaultValue: "Melchior"
+)
+```
+
 ### To render a Parameter as JSON:
 ```coffee
 console.log parameter.toJson()
@@ -230,6 +246,20 @@ S3Bucket = Resource(...)
 Server2.dependsOn(Server1, S3Bucket)
 ```
 
+### To copy a Resource and change some of its properties:
+You can create a copy of an existing `Resource` in order to change some of its property values or add an additional one.
+
+```coffee
+DefaultVolume = Resource("Volume", "AWS::EC2::Volume"
+  Size : "100"
+  AvailabilityZone : "us-east-1a"
+)
+
+EncryptedVolume = DefaultVolume.copy(
+  Encrypted: true
+)
+```
+
 ### To render a Resource as JSON:
 ```coffee
 console.log resource.toJson()
@@ -260,6 +290,19 @@ Output = require('cloud-temple').Output
 
 VolumeMount = require('./EC2VolumeMountPoint').GetAtt('Device')
 DeviceAddress = Output("DeviceAddress", VolumeMount)  # /dev/sdg
+```
+
+### To copy an Output and change its description or value:
+You can create a copy of an existing `Output` and replace its description, value, or both.
+
+```coffee
+Environment = Output("Environment", "environment type of the stack", "production")
+
+# replace the value
+ThisEnvironment = Environment.copy("development")
+
+# replace the description and the value
+ThisEnvironment = Environment.copy("the development environment", "QA-2")
 ```
 
 

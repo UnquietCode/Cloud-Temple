@@ -20,7 +20,7 @@ class Component
 		# encapsulate id meta-property so that it is not exposed
 		@id = -> id
 
-	# reference this resource
+	# reference this component
 	Ref: -> Functions.Ref(@id())
 
 	# this value as JSON

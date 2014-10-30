@@ -20,6 +20,21 @@ class Output
 
 		@Value = value
 
+		_this = @
+		@copy = Helpers.overload([
+
+			# value only
+			[undefined, (value) ->
+				new Output(_this.id(), _this.Description, value)
+			]
+
+			# description and value
+			['string', undefined, (description, value) ->
+				new Output(_this.id(), description, value)
+			]
+		])
+
+
 	toJson: -> Helpers.toJson(this)
 
 

@@ -19,6 +19,10 @@ class Parameter extends Component
 		for own k,v of properties
 			this[k] = v
 
+	copy: (newProps={}) ->
+		newParameter = new Parameter(@id(), @)
+		Helpers.overlay(newParameter, newProps)
+		return newParameter
 
 # direct constructor function
 idWithProperties = (id, properties) -> new Parameter(id, properties)

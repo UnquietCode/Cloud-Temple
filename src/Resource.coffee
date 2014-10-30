@@ -32,9 +32,13 @@ class Resource extends Component
 				this[k] = v
 
 
+	copy: (newProps={}) ->
+		newResource = new Resource(@id(), @Type, @)
+		Helpers.overlay(newResource, newProps)
+		return newResource
+
 	# get an attribute from this resource
 	GetAtt: (attribute) -> Functions.GetAtt(@id(), attribute)
-
 
 	# add a dependency
 	dependsOn: (resources...) ->

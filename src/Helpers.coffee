@@ -12,14 +12,17 @@ _type = (x) ->
 	else (typeof x).toLowerCase()
 
 
+_overlay = (obj1, obj2) ->
+	for own k,v of obj2
+		obj1[k] = v
+
+	return obj1
+
+
 _merge = (obj1, obj2) ->
 	newObj = {}
-
-	for own k,v of obj1
-		newObj[k] = v
-
-	for own k,v of obj2
-		newObj[k] = v
+	_overlay(newObj, obj1)
+	_overlay(newObj, obj2)
 
 	return newObj
 
@@ -57,5 +60,6 @@ _overload = (functions, error) ->
 module.exports =
 	type: _type
 	merge: _merge
+	overlay: _overlay
 	overload: _overload
 	toJson: (obj) -> JSON.stringify(obj, null, 2)
