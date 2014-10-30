@@ -40,6 +40,12 @@ class Template
 	addOutputs: (outputs...) -> add(Output.__type, @_outputs, outputs); return this;
 	addOutput: (x) -> @addOutputs(x); return this;
 
+	add: (x) ->
+		if x instanceof Parameter.__type then @addParameter(x)
+		else if x instanceof Resource.__type then @addResource(x)
+		else if x instanceof Output.__type then @addOutput(x)
+		else throw new Error("unknown component type")
+
 	toJson: -> Helpers.toJson(this)
 
 	toJSON: ->

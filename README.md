@@ -105,6 +105,13 @@ template.addOutput(A).addOutput(B)
 template.addOutputs(A, B)
 ```
 
+### To add any component to a Template:
+Sometimes you may not readily know the type of a component. You can add any `Parameter`, `Resource` or `Output` by using the `add(...)` function.
+
+```coffee
+template.add(component)
+```
+
 ### To render a Template as JSON:
 ```coffee
 console.log template.toJson()
