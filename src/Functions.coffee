@@ -21,4 +21,4 @@ module.exports =
 
 	Join: (delimeter, values) -> { "Fn::Join" : [ delimeter, values ]}
 
-	Select: (index, values) -> { "Fn::Select" : [ index, values ]}
+	Select: (index, values) -> { "Fn::Select" : [ index.toString(), values ]}
