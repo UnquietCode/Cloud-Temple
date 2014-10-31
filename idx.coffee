@@ -22,6 +22,7 @@ func[name] = file for own name, file of {
 	Parameter: require('./src/Parameter')
 	Parameterize: require('./src/Parameterize')
 	Resource: require('./src/Resource')
+	Output: require('./src/Output')
 	Functions: require('./src/Functions')
 	PseudoParameters: require('./src/PseudoParameters')
 	Componentize: require('./src/Componentize')
