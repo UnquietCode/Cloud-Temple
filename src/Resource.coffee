@@ -22,7 +22,7 @@ class Resource extends Component
 		@_metadata = -> undefined
 
 		# encapsulate meta-properties so that they are not exposed
-		@Type = @type = -> Type
+		@_Type = -> Type
 
 		# copy properties into self
 		for own k,v of properties
@@ -34,7 +34,7 @@ class Resource extends Component
 				this[k] = v
 
 	copy: (newProps={}) ->
-		newResource = new Resource(@id(), @Type, @)
+		newResource = new Resource(@id(), @_Type, @)
 		Helpers.overlay(newResource, newProps)
 		return newResource
 
@@ -62,7 +62,7 @@ class Resource extends Component
 	# override normal serialization
 	toJSON: ->
 		resource =
-			Type: @Type()
+			Type: @_Type()
 
 		if @_dependencies().length > 0
 			resource.DependsOn = @_dependencies()
