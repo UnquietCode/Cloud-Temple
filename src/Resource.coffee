@@ -22,7 +22,7 @@ class Resource extends Component
 		@_metadata = -> undefined
 
 		# encapsulate meta-properties so that they are not exposed
-		@_Type = -> Type
+		@type = -> Type
 
 		# copy properties into self
 		for own k,v of properties
@@ -34,7 +34,7 @@ class Resource extends Component
 				this[k] = v
 
 	copy: (newProps={}) ->
-		newResource = new Resource(@id(), @_Type, @)
+		newResource = new Resource(@id(), @type(), @)
 		Helpers.overlay(newResource, newProps)
 		return newResource
 
@@ -42,7 +42,7 @@ class Resource extends Component
 	GetAtt: (attribute) -> Functions.GetAtt(@id(), attribute)
 
 	# add a dependency
-	DependsOn: (resources...) ->
+	dependsOn: (resources...) ->
 		for resource in resources
 
 			# for resources, use a reference instead
@@ -54,7 +54,7 @@ class Resource extends Component
 		# support chaining
 		return this;
 
-	Metadata: (data) ->
+	metadata: (data) ->
 		@_metadata = -> data
 		return this
 
@@ -62,7 +62,7 @@ class Resource extends Component
 	# override normal serialization
 	toJSON: ->
 		resource =
-			Type: @_Type()
+			Type: @type()
 
 		if @_dependencies().length > 0
 			resource.DependsOn = @_dependencies()
