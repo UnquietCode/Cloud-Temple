@@ -1,5 +1,5 @@
-# Cloud Temple (v0.0.2)
-#### ~~`npm install cloud-temple`~~ will be released on Nov. 1st, 2014
+# Cloud Temple (v1.0)
+#### `npm install cloud-temple`
 
 A collection of rituals and incantations which assist in the creation of modular (reusable, extensible) AWS [CloudFormation](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/Welcome.html) templates in JavaScript.
 

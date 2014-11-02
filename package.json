@@ -1,6 +1,6 @@
 {
   "name": "cloud-temple",
-  "version": "0.0.2",
+  "version": "1.0.0",
   "description": "A small library which assists in the creation of modular (reusable, extensible) CloudFormation templates.",
   "author": "Ben Fagin <blouis@unquietcode.com>",
   "license": "none",
