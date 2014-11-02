@@ -54,9 +54,12 @@ class Resource extends Component
 		# support chaining
 		return this;
 
-	metadata: (data) ->
+	getMetadata: -> @_metadata()
+
+	setMetadata: (data) ->
+		old = @_metadata()
 		@_metadata = -> data
-		return this
+		return old
 
 
 	# override normal serialization

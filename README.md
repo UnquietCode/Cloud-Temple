@@ -263,6 +263,16 @@ S3Bucket = Resource(...)
 Server2.dependsOn(Server1, S3Bucket)
 ```
 
+### To set the metadata for a Resource:
+```coffee
+oldMetadata = resource.setMetadata({...})
+```
+
+### To retrieve the metadata for a Resource:
+```coffee
+metadata = resource.getMetadata()
+```
+
 ### To copy a Resource and change some of its properties:
 You can create a copy of an existing `Resource` in order to change some of its property values or add an additional one.
 
@@ -515,7 +525,6 @@ You know, for being *you*.
 A few things which need to be completed for full support.
 
 * [Conditions](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/conditions-section-structure.html) / [Condition Functions](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-conditions.html)
-* [Maps](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/mappings-section-structure.html)
 * [Custom Resources](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/crpg-ref.html)
 * [resource attributes](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-product-attribute-reference.html)
   * `Metadata`
