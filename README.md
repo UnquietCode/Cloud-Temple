@@ -3,9 +3,7 @@
 
 A collection of rituals and incantations which assist in the creation of modular (reusable, extensible) AWS [CloudFormation](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/Welcome.html) templates in JavaScript.
 
-The only assumption is that you are using **Node.js**, however this is not a hard requirement, and something like [browserify](https://github.com/substack/node-browserify) should do the trick for browser environments.
-
-The examples below are written in [CoffeeScript](http://coffeescript.org).
+The examples below are written in [CoffeeScript](http://coffeescript.org) and assume you are using **Node.js**, but these are not hard requirements.
 
 
 ### Stop repeating yourself!
