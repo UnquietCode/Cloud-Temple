@@ -53,7 +53,6 @@ class Template
 
 		wrapper = {}
 		wrapper[name] = map
-		console.log name
 		@addMappings(wrapper)
 
 	add: (x) ->
@@ -61,6 +60,17 @@ class Template
 		else if x instanceof Resource.__type then @addResource(x)
 		else if x instanceof Output.__type then @addOutput(x)
 		else throw new Error("unknown component type")
+
+	copy: ->
+		copyCollection = (i, o) -> o[k] = v for k,v of i
+
+		other = new Template(@_description)
+		copyCollection(@_parameters, other._parameters)
+		copyCollection(@_resources, other._resources)
+		copyCollection(@_outputs, other._outputs)
+		copyCollection(@_mappings, other._mappings)
+
+		return other
 
 	toJson: -> Helpers.toJson(this)
 
