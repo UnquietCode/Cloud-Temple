@@ -23,14 +23,14 @@ add = (type, to, from) ->
 
 
 class Template
-	_description: undefined
-	_parameters: {}
-	_resources: {}
-	_outputs: {}
-	_mappings: {}
 
 	constructor: (description) ->
 		@_description = description
+		@_parameters = {}
+		@_resources = {}
+		@_outputs = {}
+		@_mappings = {}
+
 
 	addParameters: (parameters...) -> add(Parameter.__type, @_parameters, parameters); return this;
 	addParameter: (x) -> @addParameters(x)
