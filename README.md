@@ -500,13 +500,6 @@ module.exports = Templatize("optional description", [
 ])
 ```
 
-### To require multiple components from the library in one line:
-If you are using CoffeeScript then you can make use of destructuring assignments to require multiple components from the Cloud Temple module in one go.
-
-```coffee
-{Template, Resource} = require('cloud-temple')
-```
-
 
 <a name="license"></a>
 ## License
