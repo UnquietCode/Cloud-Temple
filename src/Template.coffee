@@ -61,10 +61,10 @@ class Template
 		else if x instanceof Output.__type then @addOutput(x)
 		else throw new Error("unknown component type")
 
-	copy: ->
+	copy: (description) ->
 		copyCollection = (i, o) -> o[k] = v for k,v of i
 
-		other = new Template(@_description)
+		other = new Template(description or @_description)
 		copyCollection(@_parameters, other._parameters)
 		copyCollection(@_resources, other._resources)
 		copyCollection(@_outputs, other._outputs)

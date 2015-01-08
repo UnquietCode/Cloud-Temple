@@ -111,6 +111,13 @@ Sometimes you may not readily know the type of a component. You can add any `Par
 template.add(component)
 ```
 
+### To copy a Template:
+You can create a copy of a template and all of its components, optionally changing its description in the process.
+
+```coffee
+newTemplate = oldTemplate.copy("Optional New Description")
+```
+
 ### To render a Template as JSON:
 ```coffee
 console.log template.toJson()
