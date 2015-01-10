@@ -1,4 +1,4 @@
-# Cloud Temple (v1.0.1)
+# Cloud Temple (v1.0.2)
 #### `npm install cloud-temple`
 
 A collection of rituals and incantations which assist in the creation of modular (reusable, extensible) AWS [CloudFormation](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/Welcome.html) templates in JavaScript.
