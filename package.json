@@ -19,6 +19,6 @@
     "UnquietCode"
   ],
   "dependencies": {
-    "coffee-script": "^1.8.0"
+    "coffeescript": "^2.4.1"
   }
 }
