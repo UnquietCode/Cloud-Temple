@@ -46,7 +46,7 @@ ScratchDisk.Encrypted = false
 
 
 ## Table of Contents
-1 [Templates](#templates)
+1. [Templates](#templates)
 1. [Parameters](#parameters)
 1. [Resources](#resources)
 1. [Outputs](#outputs)
