@@ -46,15 +46,15 @@ ScratchDisk.Encrypted = false
 
 
 ## Table of Contents
-0. [Templates](#templates)
-0. [Parameters](#parameters)
-0. [Resources](#resources)
-0. [Outputs](#outputs)
-0. [Mappings](#mappings)
-0. [Intrinsic Functions](#functions)
-0. [Referencing Components](#referencing)
-0. [Pseudo Parameters](#pseudos)
-0. [Helper Functions](#helpers)
+1 [Templates](#templates)
+1. [Parameters](#parameters)
+1. [Resources](#resources)
+1. [Outputs](#outputs)
+1. [Mappings](#mappings)
+1. [Intrinsic Functions](#functions)
+1. [Referencing Components](#referencing)
+1. [Pseudo Parameters](#pseudos)
+1. [Helper Functions](#helpers)
 
 
 <a name="templates"></a>
