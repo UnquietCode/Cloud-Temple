@@ -1,7 +1,5 @@
 # Cloud Temple (v1.0.2)
 
-[![Tip with Gratipay](https://assets.gratipay.com/gratipay.svg)](https://gratipay.com/UnquietCode) [![Tip with Bitcoin](http://www.unquietcode.com/e_e/bitcoin.png)](https://blockchain.info/address/1Ec6mzLpJQvuzXqhxfJz1h9ZwJmoHMW9BX)**Bitcoin**
-
 ##### `npm install cloud-temple`
 
 A collection of rituals and incantations which assist in the creation of modular (reusable, extensible) AWS [CloudFormation](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/Welcome.html) templates in JavaScript.
