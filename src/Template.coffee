@@ -9,6 +9,7 @@
 
 Component = require('./Component')
 Parameter = require('./Parameter')
+Condition = require('./Condition')
 Resource = require('./Resource')
 Output = require('./Output')
 Helpers = require('./Helpers')
@@ -30,10 +31,14 @@ class Template
 		@_resources = {}
 		@_outputs = {}
 		@_mappings = {}
+		@_conditions = {}
 
 
 	addParameters: (parameters...) -> add(Parameter.__type, @_parameters, parameters); return this;
 	addParameter: (x) -> @addParameters(x)
+
+	addConditions: (conditions...) -> add(Condition.__type, @_conditions, conditions); return this;
+	addCondition: (x) -> @addConditions(x)
 
 	addResources: (resources...) -> add(Resource.__type, @_resources, resources); return this;
 	addResource: (x) -> @addResources(x);
@@ -87,6 +92,7 @@ class Template
 		if @_description then template.Description = @_description
 
 		addCollection("Parameters", @_parameters)
+		addCollection("Conditions", @_conditions)
 		addCollection("Resources", @_resources)
 		addCollection("Outputs", @_outputs)
 		addCollection("Mappings", @_mappings)

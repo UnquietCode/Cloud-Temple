@@ -1,3 +1,3 @@
 // bootstrap CoffeeScript
-require('coffee-script/register');
+require('coffeescript/register');
 module.exports = require('./idx');
