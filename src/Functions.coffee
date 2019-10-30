@@ -22,3 +22,11 @@ module.exports =
 	Join: (delimeter, values) -> { "Fn::Join" : [ delimeter, values ]}
 
 	Select: (index, values) -> { "Fn::Select" : [ index.toString(), values ]}
+
+	FindInMap: (mapName, topLevelKey, secondLevelKey) -> { "Fn::FindInMap" : [ mapName, topLevelKey, secondLevelKey ] }
+
+	Cidr: (ipBlock, count, cidrBits) -> { "Fn::Cidr" : [ ipBlock, count, cidrBits ] }
+
+	Split: (delimeter, string) -> { "Fn::Split" : [ delimeter, string ] }
+
+	Sub: (string, values) -> { "Fn::Sub" : [ string, values ] }
