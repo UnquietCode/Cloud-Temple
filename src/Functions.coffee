@@ -15,15 +15,15 @@ module.exports =
 
 	Cidr: (ipBlock, count, cidrBits) -> { "Fn::Cidr" : [ipBlock, count, cidrBits ] }
 
-	And: () -> { "Fn::And" : Array.prototype.slice.call(arguments)}
+	And: () -> { "Fn::And" : Array.prototype.slice.call(arguments) }
 
-	Equals = (value_1, value_2) -> { "Fn::Equals" : [value_1, value_2] }
+	Equals: (value_1, value_2) -> { "Fn::Equals" : [value_1, value_2] }
 
-	If = (condition_name, value_if_true, value_if_false) -> { "Fn::If" : [condition_name, value_if_true, value_if_false] }
+	If: (condition_name, value_if_true, value_if_false) -> { "Fn::If" : [condition_name, value_if_true, value_if_false] }
 
-	Not = (condition) -> { "Fn::Not" : [condition] }
+	Not: (condition) -> { "Fn::Not" : [condition] }
 
-	Or: () -> { "Fn::Or" : Array.prototype.slice.call(arguments)}
+	Or: () -> { "Fn::Or" : Array.prototype.slice.call(arguments) }
 
 	FindInMap: (mapName, topLevelKey, secondLevelKey) -> { "Fn::FindInMap" : [mapName, topLevelKey, secondLevelKey ] }
 
