@@ -63,6 +63,7 @@ class Template
 	add: (x) ->
 		if x instanceof Parameter.__type then @addParameter(x)
 		else if x instanceof Resource.__type then @addResource(x)
+		else if x instanceof Condition.__type then @addCondition(x)
 		else if x instanceof Output.__type then @addOutput(x)
 		else throw new Error("unknown component type")
 
@@ -72,6 +73,7 @@ class Template
 		other = new Template(description or @_description)
 		copyCollection(@_parameters, other._parameters)
 		copyCollection(@_resources, other._resources)
+		copyCollection(@_conditions, other._conditions)
 		copyCollection(@_outputs, other._outputs)
 		copyCollection(@_mappings, other._mappings)
 
