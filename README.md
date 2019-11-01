@@ -1,7 +1,5 @@
 # Cloud Temple (v1.0.2)
 
-[![Tip with Gratipay](https://assets.gratipay.com/gratipay.svg)](https://gratipay.com/UnquietCode) [![Tip with Bitcoin](http://www.unquietcode.com/e_e/bitcoin.png)](https://blockchain.info/address/1Ec6mzLpJQvuzXqhxfJz1h9ZwJmoHMW9BX)**Bitcoin**
-
 ##### `npm install cloud-temple`
 
 A collection of rituals and incantations which assist in the creation of modular (reusable, extensible) AWS [CloudFormation](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/Welcome.html) templates in JavaScript.
@@ -48,15 +46,15 @@ ScratchDisk.Encrypted = false
 
 
 ## Table of Contents
-0. [Templates](#templates)
-0. [Parameters](#parameters)
-0. [Resources](#resources)
-0. [Outputs](#outputs)
-0. [Mappings](#mappings)
-0. [Intrinsic Functions](#functions)
-0. [Referencing Components](#referencing)
-0. [Pseudo Parameters](#pseudos)
-0. [Helper Functions](#helpers)
+1. [Templates](#templates)
+1. [Parameters](#parameters)
+1. [Resources](#resources)
+1. [Outputs](#outputs)
+1. [Mappings](#mappings)
+1. [Intrinsic Functions](#functions)
+1. [Referencing Components](#referencing)
+1. [Pseudo Parameters](#pseudos)
+1. [Helper Functions](#helpers)
 
 
 <a name="templates"></a>
