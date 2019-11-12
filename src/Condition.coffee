@@ -20,9 +20,9 @@ class Condition extends Component
 			this[k] = v
 
 	copy: (newProps={}) ->
-		newParameter = new Condition(@id(), @)
-		Helpers.overlay(newParameter, newProps)
-		return newParameter
+		newCondition = new Condition(@id(), @)
+		Helpers.overlay(newCondition, newProps)
+		return newCondition
 
 # direct constructor function
 idWithProperties = (id, properties) -> new Condition(id, properties)
