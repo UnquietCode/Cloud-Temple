@@ -27,6 +27,7 @@ class Template
 
 	constructor: (description) ->
 		@_description = description
+		@_metadata = -> undefined
 		@_parameters = {}
 		@_resources = {}
 		@_outputs = {}
@@ -79,6 +80,13 @@ class Template
 
 		return other
 
+	getMetadata: -> @_metadata()
+
+	setMetadata: (data) ->
+		old = @_metadata()
+		@_metadata = -> data
+		return old
+
 	toJson: -> Helpers.toJson(this)
 
 	toJSON: ->
@@ -92,6 +100,7 @@ class Template
 			AWSTemplateFormatVersion: "2010-09-09"
 
 		if @_description then template.Description = @_description
+		if @_metadata() then template.Metadata = @_metadata()
 
 		addCollection("Parameters", @_parameters)
 		addCollection("Conditions", @_conditions)
