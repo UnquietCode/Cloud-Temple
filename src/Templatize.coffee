@@ -51,7 +51,7 @@ descriptionAndArray = (description, array) ->
 		if value instanceof Parameter.__type
 			template.addParameter(value)
 
-		if value instanceof Condition.__type
+		else if value instanceof Condition.__type
 			template.addCondition(value)
 
 		else if value instanceof Resource.__type

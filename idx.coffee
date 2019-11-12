@@ -3,7 +3,7 @@ Components =
 	Templatize: require('./src/Templatize')
 	Parameter: require('./src/Parameter')
 	Parameterize: require('./src/Parameterize')
-	Condition: require('./src/Parameter')
+	Condition: require('./src/Condition')
 	Resource: require('./src/Resource')
 	Output: require('./src/Output')
 	Functions: require('./src/Functions')
