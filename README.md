@@ -269,14 +269,54 @@ S3Bucket = Resource(...)
 Server2.dependsOn(Server1, S3Bucket)
 ```
 
-### To set the metadata for a Resource:
+### To set the Metadata for a Resource:
 ```coffee
 oldMetadata = resource.setMetadata({...})
 ```
 
-### To retrieve the metadata for a Resource:
+### To retrieve the Metadata for a Resource:
 ```coffee
 metadata = resource.getMetadata()
+```
+
+### To set the UpdatePolicy for a Resource:
+```coffee
+oldUpdatePolicy = resource.setUpdatePolicy({...})
+```
+
+### To retrieve the UpdatePolicy for a Resource:
+```coffee
+updatePolicy = resource.getUpdatePolicy()
+```
+
+### To set the UpdateReplacePolicy for a Resource:
+```coffee
+oldUpdateReplacePolicy = resource.setUpdateReplacePolicy({...})
+```
+
+### To retrieve the UpdateReplacePolicy for a Resource:
+```coffee
+updateReplacePolicy = resource.getUpdateReplacePolicy()
+```
+
+### To set the DeletionPolicy for a Resource:
+```coffee
+oldDeletionPolicy = resource.setDeletionPolicy({...})
+```
+
+### To retrieve the DeletionPolicy for a Resource:
+```coffee
+deletionPolicy = resource.getDeletionPolicy()
+```
+
+### To set the CreationPolicy for a Resource:
+```coffee
+oldCreationPolicy = resource.setCreationPolicy({...})
+```
+
+### To retrieve the CreationPolicy for a Resource:
+```coffee
+creationPolicy = resource.getCreationPolicy()
 ```
 
 ### To copy a Resource and change some of its properties:
@@ -534,9 +574,4 @@ You know, for being *you*.
 ## To Do
 A few things which need to be completed for full support.
 
-* [Conditions](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/conditions-section-structure.html) / [Condition Functions](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-conditions.html)
-* [Custom Resources](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/crpg-ref.html)
-* [resource attributes](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-product-attribute-reference.html)
-  * `Metadata`
-  * `DeletionPolicy`
-  * `UpdatePolicy`
+  * [Custom Resources](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/crpg-ref.html)

@@ -20,6 +20,10 @@ class Resource extends Component
 		@_dependencies = -> _dependencies
 
 		@_metadata = -> undefined
+		@_update_policy = -> undefined
+		@_deletion_policy = -> undefined
+		@_creation_policy = -> undefined
+		@_update_replace_policy = -> undefined
 
 		# encapsulate meta-properties so that they are not exposed
 		@type = -> Type
@@ -61,6 +65,33 @@ class Resource extends Component
 		@_metadata = -> data
 		return old
 
+	getUpdatePolicy: -> @_update_policy()
+
+	setUpdatePolicy: (data) ->
+		old = @_update_policy()
+		@_update_policy = -> data
+		return old
+
+	getDeletionPolicy: -> @_deletion_policy()
+
+	setDeletionPolicy: (data) ->
+		old = @_deletion_policy()
+		@_deletion_policy = -> data
+		return old
+
+	getCreationPolicy: -> @_creation_policy()
+
+	setCreationPolicy: (data) ->
+		old = @_creation_policy()
+		@_creation_policy = -> data
+		return old
+
+	getUpdateReplacePolicy: -> @_update_replace_policy()
+
+	setUpdateReplacePolicy: (data) ->
+		old = @_update_replace_policy()
+		@_update_replace_policy = -> data
+		return old
 
 	# override normal serialization
 	toJSON: ->
@@ -70,9 +101,25 @@ class Resource extends Component
 		if @_dependencies().length > 0
 			resource.DependsOn = @_dependencies()
 
-		# copy metadata
+		# copy Metadata
 		if @_metadata() and Object.keys(@_metadata()).length > 0
 			resource.Metadata = @_metadata()
+
+		# copy UpdatePolicy
+		if @_update_policy() and Object.keys(@_update_policy()).length > 0
+			resource.UpdatePolicy = @_update_policy()
+
+		# copy DeletionPolicy
+		if @_deletion_policy() and Object.keys(@_deletion_policy()).length > 0
+			resource.DeletionPolicy = @_deletion_policy()
+
+		# copy CreationPolicy
+		if @_creation_policy() and Object.keys(@_creation_policy()).length > 0
+			resource.CreationPolicy = @_creation_policy()
+
+		# copy UpdateReplacePolicy
+		if @_update_replace_policy() and Object.keys(@_update_replace_policy()).length > 0
+			resource.UpdateReplacePolicy = @_update_replace_policy()
 
 		# copy properties
 		properties = {}
