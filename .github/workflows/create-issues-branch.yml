@@ -1,0 +1,18 @@
+name: Create Branch
+on:
+  workflow_dispatch:
+    inputs:
+      name:
+        description: 'name of the branch to create'
+        required: true
+        default: 'issues'
+
+jobs:
+  create-branch:
+    runs-on: ubuntu-latest
+    steps:
+      - id: create-branch
+        name: create a bare branch
+        uses: unquietcode/actions/create-bare-branch@master
+        with:
+          name: "${{ github.event.inputs.name }}"
