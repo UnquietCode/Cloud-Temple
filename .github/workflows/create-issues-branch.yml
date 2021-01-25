@@ -15,4 +15,5 @@ jobs:
         name: create a bare branch
         uses: unquietcode/actions/create-bare-branch@master
         with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           name: "${{ github.event.inputs.name }}"
