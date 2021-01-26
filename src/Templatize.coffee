@@ -9,6 +9,7 @@
 
 Template = require('./Template')
 Parameter = require('./Parameter')
+Condition = require('./Condition')
 Resource = require('./Resource')
 Output = require('./Output')
 Helpers = require('./Helpers')
@@ -19,6 +20,9 @@ descriptionAndObject = (description, object) ->
 	addWhenBuilt = (key, value) ->
 		if value instanceof Parameter.__type
 			template.addParameter(value)
+
+		else if value instanceof Condition.__type
+			template.addCondition(value)
 
 		else if value instanceof Resource.__type
 			template.addResource(value)
@@ -47,13 +51,16 @@ descriptionAndArray = (description, array) ->
 		if value instanceof Parameter.__type
 			template.addParameter(value)
 
+		else if value instanceof Condition.__type
+			template.addCondition(value)
+
 		else if value instanceof Resource.__type
 			template.addResource(value)
 
 		else if value instanceof Output.__type
 			template.addOutput(value)
 
-		else throw new Error("only fully constructed Parameters, Resources, and Outputs are allowed")
+		else throw new Error("only fully constructed Parameters, Conditions, Resources, and Outputs are allowed")
 
 	return array
 

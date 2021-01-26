@@ -269,14 +269,54 @@ S3Bucket = Resource(...)
 Server2.dependsOn(Server1, S3Bucket)
 ```
 
-### To set the metadata for a Resource:
+### To set the Metadata for a Resource:
 ```coffee
 oldMetadata = resource.setMetadata({...})
 ```
 
-### To retrieve the metadata for a Resource:
+### To retrieve the Metadata for a Resource:
 ```coffee
 metadata = resource.getMetadata()
+```
+
+### To set the UpdatePolicy for a Resource:
+```coffee
+oldUpdatePolicy = resource.setUpdatePolicy({...})
+```
+
+### To retrieve the UpdatePolicy for a Resource:
+```coffee
+updatePolicy = resource.getUpdatePolicy()
+```
+
+### To set the UpdateReplacePolicy for a Resource:
+```coffee
+oldUpdateReplacePolicy = resource.setUpdateReplacePolicy({...})
+```
+
+### To retrieve the UpdateReplacePolicy for a Resource:
+```coffee
+updateReplacePolicy = resource.getUpdateReplacePolicy()
+```
+
+### To set the DeletionPolicy for a Resource:
+```coffee
+oldDeletionPolicy = resource.setDeletionPolicy({...})
+```
+
+### To retrieve the DeletionPolicy for a Resource:
+```coffee
+deletionPolicy = resource.getDeletionPolicy()
+```
+
+### To set the CreationPolicy for a Resource:
+```coffee
+oldCreationPolicy = resource.setCreationPolicy({...})
+```
+
+### To retrieve the CreationPolicy for a Resource:
+```coffee
+creationPolicy = resource.getCreationPolicy()
 ```
 
 ### To copy a Resource and change some of its properties:
@@ -356,12 +396,23 @@ DataVolume = Resource("DataVolume", "AWS::EC2::Volume"
 
 ### Complete List of Functions
 
-* `Ref(id)` &rarr; `{ "Ref" : id }`
-* `GetAtt(id, attribute)` &rarr; `{ "Fn::GetAtt" : [id, attribute] }`
 * `Base64(string)` &rarr; `{ "Fn::Base64" : string }`
+* `Cidr(ipBlock, count, cidrBits)` &rarr; `{ "Fn::Cidr" : [ipBlock, count, cidrBits ] }`
+* `And()` &rarr; `{ "Fn::And" : Array.prototype.slice.call(arguments)}`
+* `Equals = (value_1, value_2)` &rarr; `{ "Fn::Equals" : [value_1, value_2] }`
+* `If = (condition_name, value_if_true, value_if_false)` &rarr; `{ "Fn::If" : [condition_name, value_if_true, value_if_false] }`
+* `Not = (condition)` &rarr; `{ "Fn::Not" : [condition] }`
+* `Or()` &rarr; `{ "Fn::Or" : Array.prototype.slice.call(arguments)}`
+* `FindInMap(mapName, topLevelKey, secondLevelKey)` &rarr; `{ "Fn::FindInMap" : [mapName, topLevelKey, secondLevelKey ] }`
+* `GetAtt(id, attribute)` &rarr; `{ "Fn::GetAtt" : [id, attribute] }`
 * `GetAZs(region=PseudoParams.Region)` &rarr; `{ "Fn::GetAZs" : region }`
+* `ImportValue(sharedValueToImport)` &rarr; `{ "Fn::ImportValue" : sharedValueToImport }`
 * `Join(delimeter, values)` &rarr; `{ "Fn::Join" : [ delimeter, values ]}`
-* `Select(index, values)` &rarr; `{ "Fn::Select" : [ index, values ]}`
+* `Select(index, values)` &rarr; `{ "Fn::Select" : [ index.toString(), values ]}`
+* `Split(delimeter, string)` &rarr; `{ "Fn::Split" : [delimeter, string ] }`
+* `Sub(string, values)` &rarr; `{ "Fn::Sub" : [string, values ] }`
+* `Transform(macro_name, parameters)` &rarr; `{ "Fn::Transform" : { "Name" : macro_name, "Parameters" : parameters } }`
+* `Ref(id)` &rarr; `{ "Ref" : id }`
 
 
 <a name="referencing"></a>
@@ -444,9 +495,9 @@ module.exports = Parameterize
     Type: "String"
     Description: "instance type for application server"
     Default: "m3.medium"
-    
+
   ....
-  
+
 ```
 
 ### To create a series of components from a regular object:
@@ -457,19 +508,19 @@ Using the `Componentize` helper, you can create a map of components where the ID
 Componentize = require('cloud-temple').Componentize
 
 module.exports = Componentize
-  
+
   # using Parameters
   VolumeName: Parameter({...})
-  
+
   # using Resources
   Volume: Resource("AWS::EC2::Volume", {...})
-  
+
   # if the component already has an ID it is left unchanged
   Instance: Resource("AWS::EC2::Instance", "WebServerInstance", {...})
-  
+
   # setting the ID on a reusable Resource
   DNS: require('./DnsRecord')
-  
+
   # you could also include Outputs here
   StackRegion: Output("StackRegion", Pseudo.Region)
 ```
@@ -498,11 +549,11 @@ Given an array of already constructed components (Parameters, Resources, and Out
 # MyTemplate.coffee
 
 module.exports = Templatize("optional description", [
-  
+
   Parameter("ParamA", {...})
-  
+
   Resource("ResourceB", "Type", {...})
-  
+
   Output("OutputC", "...")
 
 ])
@@ -523,9 +574,4 @@ You know, for being *you*.
 ## To Do
 A few things which need to be completed for full support.
 
-* [Conditions](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/conditions-section-structure.html) / [Condition Functions](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-conditions.html)
-* [Custom Resources](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/crpg-ref.html)
-* [resource attributes](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-product-attribute-reference.html)
-  * `Metadata`
-  * `DeletionPolicy`
-  * `UpdatePolicy` 
+  * [Custom Resources](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/crpg-ref.html)
